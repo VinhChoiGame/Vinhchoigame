@@ -1,0 +1,118 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+   Name = "🔥 Script Tổng Hợp by Vinh 🔥",
+   LoadingTitle = "Khởi tạo Vinh Hub...",
+   LoadingSubtitle = "by Vinh",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "VinhScriptConfig",
+      FileName = "VinhHub"
+   },
+   KeySystem = false,
+})
+
+-- [[ BIẾN CHO NOCLIP ]]
+local Noclip = false
+game:GetService("RunService").Stepped:Connect(function()
+    if Noclip then
+        for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
+
+-- [[ TAB TRANG CHỦ ]]
+local MainTab = Window:CreateTab("🏠 Trang Chủ", 4483362458)
+
+MainTab:CreateSection("Tính năng nhân vật")
+
+-- Bật/Tắt Noclip
+MainTab:CreateToggle({
+   Name = "👻 Bật Noclip (Xuyên Tường)",
+   CurrentValue = false,
+   Flag = "NoclipToggle", 
+   Callback = function(Value)
+      Noclip = Value
+      if Noclip then
+          Rayfield:Notify({Title = "Noclip", Content = "Đã BẬT đi xuyên tường!", Duration = 2})
+      else
+          Rayfield:Notify({Title = "Noclip", Content = "Đã TẮT đi xuyên tường!", Duration = 2})
+      end
+   end,
+})
+
+-- Tool Dịch chuyển vào kho đồ
+MainTab:CreateButton({
+   Name = "🎒 Lấy Tool Dịch Chuyển (Click TP)",
+   Callback = function()
+      local player = game.Players.LocalPlayer
+      local mouse = player:GetMouse()
+      local tpTool = Instance.new("Tool")
+      tpTool.Name = "📍 Dịch Chuyển (Vinh)"
+      tpTool.RequiresHandle = false
+      tpTool.Activated:Connect(function()
+         player.Character.HumanoidRootPart.CFrame = CFrame.new(mouse.Hit.p + Vector3.new(0, 3, 0))
+      end)
+      tpTool.Parent = player.Backpack
+      Rayfield:Notify({Title = "Thành công", Content = "Đã thêm Tool vào kho đồ!", Duration = 3})
+   end,
+})
+
+MainTab:CreateSlider({
+   Name = "Tốc độ chạy (WalkSpeed)",
+   Range = {16, 500},
+   Increment = 1,
+   CurrentValue = 16,
+   Callback = function(Value)
+      game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+   end,
+})
+
+-- [[ TAB SCRIPT HUB ]]
+local ScriptTab = Window:CreateTab("📜 Script Hub", 4483362458)
+
+ScriptTab:CreateSection("🔥 Danh Sách Script Hot")
+
+ScriptTab:CreateButton({
+   Name = "🌙 Chạy Main 99 Đêm",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Xero2409/Main99Dem/refs/heads/main/Main99Dem.lua"))()
+   end,
+})
+
+ScriptTab:CreateButton({
+   Name = "🦊 Chạy Foxname Hub",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FoxnameHub.lua"))()
+   end,
+})
+
+ScriptTab:CreateButton({
+   Name = "🚀 Chạy NaNaTV Hub",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/NaNacuti/nanabeo/refs/heads/main/NaNaTVHub.lua"))()
+   end,
+})
+
+ScriptTab:CreateButton({
+   Name = "💎 Chạy RUBU V6",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Teddyseetink/RUBU/refs/heads/main/RUBUV6.lua"))()
+   end,
+})
+
+ScriptTab:CreateButton({
+   Name = "🌌 Chạy Quantum Onyx",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/flazhy/QuantumOnyx/refs/heads/main/QuantumOnyx.lua"))()
+   end,
+})
+
+-- [[ TAB THÔNG TIN ]]
+local InfoTab = Window:CreateTab("ℹ️ Thông tin", 4483362458)
+InfoTab:CreateLabel("Script Menu tổng hợp bởi: Vinh")
+
+Rayfield:LoadConfiguration()
